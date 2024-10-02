@@ -25,7 +25,14 @@ body {
 }
 
 main {
+
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   flex-grow: 1;
+  width: 100%;
 }
 
 main:has(.back-link) {
@@ -36,6 +43,8 @@ main:has(.back-link) {
 
 /* Основні стилі для форми */
 .form {
+
+  margin-bottom: 20px;
   margin: 50px auto;
   display: flex;
   flex-direction: column;
@@ -91,6 +100,32 @@ main:has(.back-link) {
 
 
 .form button:hover {
+  background-color: #0056b3;
+}
+
+
+.load-more-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+
+  display: block;
+  margin: 0 auto;
+
+
+
+  width: 200px;
+
+  text-align: center;
+}
+
+.load-more-btn:hover {
   background-color: #0056b3;
 }
 
