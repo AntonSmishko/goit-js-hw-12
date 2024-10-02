@@ -10,9 +10,9 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import axios from 'axios';
 
-import { fetchImages } from './js/pixabay-api';
-import { photoMarkup } from './js/render-functions';
-
+import { fetchImages } from './js/pixabay-api.js';
+import { photoMarkup } from './js/render-functions.js';
+import { PER_PAGE } from './js/pixabay-api.js';
 export const linkEl = {
     form: document.querySelector('.form'),
     loader: document.querySelector('.loader'),
@@ -30,15 +30,25 @@ let gallery = new SimpleLightbox('.gallery a');
 // пагінація
 let pageCount = 1;
 let query = null;
+let pagesOfEverything = 0;
 //
 
 // обробник кнопки дозавантаження
 async function loadMoreBtnHandler(e) {
     e.preventDefault();
-
     pageCount += 1;
-    const data = await fetchImages(query, pageCount);
-    photoMarkup(data);
+
+    try {
+        const data = await fetchImages(query, pageCount);
+        photoMarkup(data);
+        scroll();
+        if (pageCount > Math.min(pagesOfEverything, 33)) {
+            linkEl.loadMoreBtn.classList.add('is-hidden');
+            return;
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 //
@@ -66,6 +76,9 @@ async function formHandler(e) {
     // робимо запит
     try {
         const data = await fetchImages(query);
+        // обробка кількості сторінок
+        pagesOfEverything = Math.ceil(data.totalHits / PER_PAGE);
+        //
 
         photoMarkup(data);
 
@@ -85,31 +98,16 @@ async function formHandler(e) {
     } finally {
         form.reset();
     }
-    // await fetchImages(query)
-    // обробка запиту , позначили що прийшла data , ховаю лоадер та обробляємо негативний кейс
-    // .then(data => {
-    //   linkEl.loader.classList.remove('active');
-    //   if (data.hits.length === 0) {
-    //     linkEl.list.innerHTML = '';
-    //     iziToast.error({
-    //       position: 'topRight',
-    //       message:
-    //         'Sorry, there are no images matching your search query. Please try again!',
-    //     });
-    //     return;
-    //   }
-    //   // отримали дані та прокидуємо їх в функцію для створення розмітки
-    //   photoMarkup(data);
-    //   linkEl.loadMoreBtn.classList.remove('is-hidden');
-    //   gallery.refresh();
-    // })
-    // .catch(error => {
-    //   linkEl.loadMoreBtn.classList.add('is-hidden');
-    //   linkEl.loader.classList.remove('active');
-    //   linkEl.list.innerHTML = '';
-    //   iziToast.error({
-    //     position: 'topRight',
-    //     message: error,
-    //   });
-    // });
+}
+
+function scroll() {
+    const lastEl = linkEl.list.lastElementChild;
+
+    const heightEl = lastEl.getBoundingClientRect().height;
+    console.log(heightEl);
+    window.scrollBy({
+        top: heightEl * 2,
+        left: 0,
+        behavior: 'smooth',
+    });
 }

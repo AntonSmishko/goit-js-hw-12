@@ -1,7 +1,7 @@
 import { linkEl } from '../main';
 const listEl = document.querySelector('.gallery');
 export function photoMarkup(data) {
-    linkEl.list.innerHTML = data.hits
+    const murkupEl = data.hits
         .map(
             ({
                 webformatURL,
@@ -26,4 +26,5 @@ export function photoMarkup(data) {
         `
         )
         .join('');
+    linkEl.list.insertAdjacentHTML('beforeend', murkupEl);
 }
