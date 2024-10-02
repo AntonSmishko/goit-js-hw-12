@@ -16,7 +16,7 @@ export async function fetchImages(query, page = 1) {
         page,
     });
 
-    const url = `${URL_PIXABAY}?key=${API_KEY}&${searchParams}}`;
+    const url = `${URL_PIXABAY}?key=${API_KEY}&${searchParams}`;
 
     const response = await axios.get(url);
 
