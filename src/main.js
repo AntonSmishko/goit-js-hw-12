@@ -62,8 +62,8 @@ async function formHandler(e) {
     photoMarkup(data);
 
     linkEl.loader.classList.remove('active');
-    linkEl.loadMoreBtn.classList.remove('is-hidden');
     gallery.refresh();
+    linkEl.loadMoreBtn.classList.remove('is-hidden');
   } catch (error) {
     linkEl.loader.classList.remove('active');
     linkEl.loadMoreBtn.classList.add('is-hidden');
