@@ -57,13 +57,15 @@ async function formHandler(e) {
   // робимо запит
   try {
     const data = await fetchImages(query);
+
     photoMarkup(data);
+    linkEl.loader.classList.remove('active');
+
     gallery.refresh();
   } catch (error) {
     linkEl.loader.classList.remove('active');
     linkEl.list.innerHTML = '';
 
-    console.dir(error);
     iziToast.error({
       position: 'topRight',
       message: error.message,

@@ -41,10 +41,5 @@ export async function fetchImages(query, page = 1) {
     throw new Error(msg);
   }
 
-  //     const response = await axios.get(
-  //       `${URL_PIXABAY}?key=${API_KEY}&q=${query}&per_page=${PER_PAGE}&image_type=photo&orientation=horizontal&safesearch=true
-  // `
-  //     );
-
   return response.data;
 }
