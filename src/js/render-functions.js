@@ -1,21 +1,17 @@
 import { linkEl } from '../main';
 const listEl = document.querySelector('.gallery');
 export function photoMarkup(data) {
-  if (data.length === 0) {
-    linkEl.list.innerHTML = '';
-    return;
-  }
-  linkEl.list.innerHTML = data.hits
-    .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => `
+    linkEl.list.innerHTML = data.hits
+        .map(
+            ({
+                webformatURL,
+                largeImageURL,
+                tags,
+                likes,
+                views,
+                comments,
+                downloads,
+            }) => `
             <li class="gallery-item">
                 <a href="${largeImageURL}" class="gallery-link">
                     <img src="${webformatURL}" alt="${tags}" class="gallery-image" />
@@ -28,7 +24,6 @@ export function photoMarkup(data) {
                 </div>
             </li>
         `
-    )
-    .join('');
-  console.log();
+        )
+        .join('');
 }
