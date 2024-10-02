@@ -41,6 +41,7 @@ async function loadMoreBtnHandler(e) {
     try {
         const data = await fetchImages(query, pageCount);
         photoMarkup(data);
+        gallery.refresh();
         scroll();
         if (pageCount > Math.min(pagesOfEverything, 33)) {
             linkEl.loadMoreBtn.classList.add('is-hidden');
