@@ -8,6 +8,8 @@ import SimpleLightbox from 'simplelightbox';
 // Додатковий імпорт стилів
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+import axios from 'axios';
+
 import { fetchImages } from './js/pixabay-api';
 import { photoMarkup } from './js/render-functions';
 
@@ -18,10 +20,16 @@ export const linkEl = {
 };
 
 linkEl.form.addEventListener('submit', formHandler);
+//
+//  для галереї
 let gallery = new SimpleLightbox('.gallery a');
-function formHandler(e) {
+//
+//
+//
+async function formHandler(e) {
   e.preventDefault();
   linkEl.list.innerHTML = '';
+  // отримуємо значення запиту від користувача
   const query =
     e.target.elements['search-area'].value.trim();
   if (query === '') {
@@ -31,12 +39,15 @@ function formHandler(e) {
     });
     return;
   }
+  // перед запитом очищаємо інпут та показуємо лоадер
   e.target.elements['search-area'].value = '';
   linkEl.loader.classList.add('active');
-  fetchImages(query)
+  // робимо запит
+  await fetchImages(query)
+    // обробка запиту , позначили що прийшла data , ховаю лоадер та обробляємо негативний кейс
     .then(data => {
       linkEl.loader.classList.remove('active');
-      if (data.length === 0) {
+      if (data.hits.length === 0) {
         linkEl.list.innerHTML = '';
         iziToast.error({
           position: 'topRight',
@@ -45,7 +56,7 @@ function formHandler(e) {
         });
         return;
       }
-
+      // отримали дані та прокидуємо їх в функцію для створення розмітки
       photoMarkup(data);
       gallery.refresh();
     })

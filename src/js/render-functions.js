@@ -5,7 +5,7 @@ export function photoMarkup(data) {
     linkEl.list.innerHTML = '';
     return;
   }
-  linkEl.list.innerHTML = data
+  linkEl.list.innerHTML = data.hits
     .map(
       ({
         webformatURL,
