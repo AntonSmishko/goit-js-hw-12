@@ -80,6 +80,7 @@ async function formHandler(e) {
     // робимо запит
     try {
         const data = await fetchImages(query);
+
         // обробка кількості сторінок
         pagesOfEverything = Math.ceil(data.totalHits / PER_PAGE);
         //
@@ -88,7 +89,11 @@ async function formHandler(e) {
 
         linkEl.loader.classList.remove('active');
         gallery.refresh();
-        linkEl.loadMoreBtn.classList.remove('is-hidden');
+        if (data.hits.length < 15) {
+            linkEl.loadMoreBtn.classList.add('is-hidden');
+        } else {
+            linkEl.loadMoreBtn.classList.remove('is-hidden');
+        }
     } catch (error) {
         linkEl.loader.classList.remove('active');
         linkEl.loadMoreBtn.classList.add('is-hidden');
