@@ -44,6 +44,10 @@ async function loadMoreBtnHandler(e) {
         scroll();
         if (pageCount > Math.min(pagesOfEverything, 33)) {
             linkEl.loadMoreBtn.classList.add('is-hidden');
+            iziToast.error({
+                position: 'topRight',
+                message: 'Вибачте, але ви досягли кінця результатів пошуку.',
+            });
             return;
         }
     } catch (error) {
