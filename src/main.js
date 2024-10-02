@@ -59,17 +59,20 @@ async function formHandler(e) {
     const data = await fetchImages(query);
 
     photoMarkup(data);
+
     linkEl.loader.classList.remove('active');
 
     gallery.refresh();
+    linkEl.loadMoreBtn.classList.remove('is-hidden');
   } catch (error) {
     linkEl.loader.classList.remove('active');
+    linkEl.loadMoreBtn.classList.add('is-hidden');
+
     linkEl.list.innerHTML = '';
 
     iziToast.error({
       position: 'topRight',
       message: error.message,
-      // message: 'Не знайшлося відповідного контенту, спробуйте знову',
     });
   }
   // await fetchImages(query)
