@@ -35,7 +35,6 @@ let pagesOfEverything = 0;
 
 // обробник кнопки дозавантаження
 async function loadMoreBtnHandler(e) {
-    e.preventDefault();
     pageCount += 1;
 
     try {
@@ -114,7 +113,7 @@ function scroll() {
     const lastEl = linkEl.list.lastElementChild;
 
     const heightEl = lastEl.getBoundingClientRect().height;
-    console.log(heightEl);
+
     window.scrollBy({
         top: heightEl * 2,
         left: 0,
