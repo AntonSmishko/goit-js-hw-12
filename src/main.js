@@ -40,6 +40,7 @@ let pageCount = null;
 //
 async function formHandler(e) {
   e.preventDefault();
+  const form = e.currentTarget;
   linkEl.list.innerHTML = '';
   // отримуємо значення запиту від користувача
   const query = e.target.elements['search-area'].value.trim();
@@ -51,8 +52,8 @@ async function formHandler(e) {
     return;
   }
 
-  // перед запитом очищаємо інпут та показуємо лоадер
-  e.target.elements['search-area'].value = '';
+  // перед запитом показуємо лоадер
+
   linkEl.loader.classList.add('active');
   // робимо запит
   try {
@@ -73,6 +74,8 @@ async function formHandler(e) {
       position: 'topRight',
       message: error.message,
     });
+  } finally {
+    form.reset();
   }
   // await fetchImages(query)
   // обробка запиту , позначили що прийшла data , ховаю лоадер та обробляємо негативний кейс
