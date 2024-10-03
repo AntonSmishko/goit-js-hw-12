@@ -39,10 +39,18 @@ async function loadMoreBtnHandler(e) {
 
     try {
         const data = await fetchImages(query, pageCount);
+        if (data.hits.length === 0 || pageCount > pagesOfEverything) {
+            linkEl.loadMoreBtn.classList.add('is-hidden');
+            iziToast.error({
+                position: 'topRight',
+                message: 'Вибачте, але більше немає результатів.',
+            });
+            return; // Виходимо з функції, якщо немає нових даних
+        }
         photoMarkup(data);
         gallery.refresh();
         scroll();
-        if (pageCount > Math.min(pagesOfEverything, 33)) {
+        if (pageCount > pagesOfEverything) {
             linkEl.loadMoreBtn.classList.add('is-hidden');
             iziToast.error({
                 position: 'topRight',
@@ -60,7 +68,7 @@ async function formHandler(e) {
     e.preventDefault();
     const form = e.currentTarget;
     //  очищаємо вміст перед новим запитом
-
+    pageCount = 1;
     linkEl.list.innerHTML = '';
     // отримуємо значення запиту від користувача, оновлюємо змінну та перевіряємо його
     query = e.target.elements['search-area'].value.trim();
@@ -89,7 +97,7 @@ async function formHandler(e) {
 
         linkEl.loader.classList.remove('active');
         gallery.refresh();
-        if (data.hits.length < 15) {
+        if (data.hits.length < 15 || data.hits.length === 0) {
             linkEl.loadMoreBtn.classList.add('is-hidden');
         } else {
             linkEl.loadMoreBtn.classList.remove('is-hidden');
