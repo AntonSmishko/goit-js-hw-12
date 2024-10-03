@@ -39,25 +39,22 @@ async function loadMoreBtnHandler(e) {
 
     try {
         const data = await fetchImages(query, pageCount);
+        pagesOfEverything = data.totalHits / PER_PAGE;
         if (data.hits.length === 0 || pageCount > pagesOfEverything) {
             linkEl.loadMoreBtn.classList.add('is-hidden');
-            iziToast.error({
-                position: 'topRight',
-                message: 'Вибачте, але більше немає результатів.',
-            });
-            return; // Виходимо з функції, якщо немає нових даних
+            setTimeout(() => {
+                iziToast.error({
+                    position: 'topRight',
+                    message:
+                        'Вибачте, але ви досягли кінця результатів пошуку.',
+                });
+            }, 1000);
+
+            // Виходимо з функції, якщо немає нових даних
         }
         photoMarkup(data);
         gallery.refresh();
         scroll();
-        if (pageCount > pagesOfEverything) {
-            linkEl.loadMoreBtn.classList.add('is-hidden');
-            iziToast.error({
-                position: 'topRight',
-                message: 'Вибачте, але ви досягли кінця результатів пошуку.',
-            });
-            return;
-        }
     } catch (error) {
         console.log(error);
     }
@@ -90,7 +87,7 @@ async function formHandler(e) {
         const data = await fetchImages(query);
 
         // обробка кількості сторінок
-        pagesOfEverything = Math.ceil(data.totalHits / PER_PAGE);
+        pagesOfEverything = data.totalHits / PER_PAGE;
         //
 
         photoMarkup(data);
