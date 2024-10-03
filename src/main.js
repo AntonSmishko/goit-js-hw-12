@@ -53,6 +53,7 @@ async function loadMoreBtnHandler(e) {
             // Виходимо з функції, якщо немає нових даних
         }
         photoMarkup(data);
+
         gallery.refresh();
         scroll();
     } catch (error) {
