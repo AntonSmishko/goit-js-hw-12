@@ -66,6 +66,7 @@ async function formHandler(e) {
     e.preventDefault();
     const form = e.currentTarget;
     //  очищаємо вміст перед новим запитом
+    linkEl.loadMoreBtn.classList.add('is-hidden');
     pageCount = 1;
     linkEl.list.innerHTML = '';
     // отримуємо значення запиту від користувача, оновлюємо змінну та перевіряємо його
@@ -85,7 +86,7 @@ async function formHandler(e) {
 
     // робимо запит
     try {
-        const data = await fetchImages(query);
+        const data = await fetchImages(query, pageCount);
 
         // обробка кількості сторінок
         pagesOfEverything = data.totalHits / PER_PAGE;

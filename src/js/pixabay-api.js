@@ -5,6 +5,14 @@ const API_KEY = '46219346-243694830f7cca451bf7f7da0';
 export const PER_PAGE = 15;
 
 export async function fetchImages(query, page = 1) {
+    if (query === '') {
+        iziToast.error({
+            position: 'topRight',
+            message: 'Введіть будь-ласка значення для пошуку',
+        });
+        return;
+    }
+
     // використовуємо обєкт параметрів пошуку
 
     const searchParams = new URLSearchParams({
